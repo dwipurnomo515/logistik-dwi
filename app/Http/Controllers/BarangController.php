@@ -51,7 +51,8 @@ class BarangController extends Controller
 
     public function edit(Barang $barang)
     {
-        return view('barang.edit', compact('barang'));
+        $kategoris = Kategori::all();
+        return view('barang.edit', compact('barang', 'kategoris'));
     }
 
     public function update(Request $request, Barang $barang)
