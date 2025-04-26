@@ -17,17 +17,17 @@
         </div>
         <ul class="nav flex-column">
           <li class="nav-item mb-2">
-            <a href="{{ route('barang.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium active bg-light text-primary">
+            <a href="{{ route('barang.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium {{ request()->routeIs('barang.*') ? 'active bg-light text-primary' : '' }}">
               <i class="bi bi-box-seam"></i> Stok Barang
             </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="{{ route('barang-masuk.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium">
+            <a href="{{ route('barang-masuk.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium {{ request()->routeIs('barang-masuk.*') ? 'active bg-light text-primary' : '' }}">
               <i class="bi bi-box-arrow-in-down"></i> Barang Masuk
             </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="{{ route('barang-keluar.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium">
+            <a href="{{ route('barang-keluar.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium {{ request()->routeIs('barang-keluar.*') ? 'active bg-light text-primary' : '' }}">
               <i class="bi bi-box-arrow-up"></i> Barang Keluar
             </a>
           </li>

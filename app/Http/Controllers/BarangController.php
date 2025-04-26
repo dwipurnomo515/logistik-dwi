@@ -13,10 +13,24 @@ class BarangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $barangs = Barang::all();
-        return view('barang.index', compact('barangs'));
+        $query = Barang::query()->with('kategori');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama_barang', 'like', '%' . $search . '%')
+                  ->orWhere('kode_barang', 'like', '%' . $search . '%')
+                  ->orWhere('lokasi_gudang', 'like', '%' . $search . '%');
+            });
+        }
+
+
+        $barangs = $query->paginate(10);
+        $kategoris = Kategori::all();
+        
+        return view('barang.index', compact('barangs', 'kategoris'));
     }
 
 
@@ -71,7 +85,15 @@ class BarangController extends Controller
 
     public function destroy(Barang $barang)
     {
-        $barang->delete();
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus');
+        try {
+            // Soft delete barang
+            $barang->delete();
+            
+            return redirect()->route('barang.index')
+                ->with('success', 'Barang berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('barang.index')
+                ->with('error', 'Gagal menghapus barang: ' . $e->getMessage());
+        }
     }
 }

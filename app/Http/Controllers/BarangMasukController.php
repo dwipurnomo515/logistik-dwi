@@ -8,15 +8,52 @@ use Illuminate\Http\Request;
 
 class BarangMasukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $barangMasuk = BarangMasuk::with('barang')->latest()->get();
+        $query = BarangMasuk::with(['barang' => function($q) {
+            $q->withTrashed(); 
+        }]);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->whereHas('barang', function($q) use ($search) {
+                $q->withTrashed()
+                  ->where('kode_barang', 'like', "%{$search}%")
+                  ->orWhere('nama_barang', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('tanggal_masuk', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $query->whereDate('tanggal_masuk', '<=', $request->end_date);
+        }
+
+        $sortField = $request->get('sort', 'tanggal_masuk');
+        $sortDirection = $request->get('direction', 'desc');
+        
+        $allowedSortFields = ['kode_barang', 'nama_barang', 'quantity', 'tanggal_masuk'];
+        if (!in_array($sortField, $allowedSortFields)) {
+            $sortField = 'tanggal_masuk';
+        }
+
+        if ($sortField == 'kode_barang' || $sortField == 'nama_barang') {
+            $query->join('barangs', 'barang_masuks.barang_id', '=', 'barangs.id')
+                  ->orderBy("barangs.{$sortField}", $sortDirection)
+                  ->select('barang_masuks.*');
+        } else {
+            $query->orderBy($sortField, $sortDirection);
+        }
+
+        $barangMasuk = $query->paginate(10)->withQueryString();
+
         return view('barang_masuk.index', compact('barangMasuk'));
     }
 
     public function create()
     {
-        $barang = Barang::all();
+        $barang = Barang::whereNull('deleted_at')->get(); 
         return view('barang_masuk.create', compact('barang'));
     }
 

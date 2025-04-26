@@ -18,24 +18,17 @@
         </div>
         
         <div class="col-md-6">
-          <label class="form-label fw-semibold">Kode Barang</label>
-          <input type="text" class="form-control" readonly id="kode_barang" placeholder="Kode Barang">
+          <label class="form-label fw-semibold">Quantity</label>
+          <input type="number" name="quantity" class="form-control" required placeholder="Masukkan Quantity">
         </div>
       </div>
       
       <div class="row mb-4">
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Quantity</label>
-          <input type="number" name="quantity" class="form-control" required placeholder="Masukkan Quantity">
-        </div>
-        
         <div class="col-md-6">
           <label class="form-label fw-semibold">Destination (Tujuan Barang)</label>
           <input type="text" name="destination" class="form-control" required placeholder="Masukkan Tujuan Barang">
         </div>
-      </div>
-      
-      <div class="row mb-4">
+        
         <div class="col-md-6">
           <label class="form-label fw-semibold">Tanggal Keluar</label>
           <input type="date" name="tanggal_keluar" class="form-control" required>
