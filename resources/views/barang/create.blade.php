@@ -5,7 +5,7 @@
 
 <div class="card">
   <div class="card-body p-4">
-    <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('barang.store') }}" method="POST">
       @csrf
 
       <div class="row mb-4">
@@ -36,14 +36,13 @@
           <label for="kategori" class="form-label fw-semibold">
             <i class="bi bi-tags me-1"></i> Kategori
           </label>
-          <select name="kategori_id" id="kategori" class="form-select" required>
-            <option value="" disabled selected>Pilih kategori</option>
-            @foreach ($kategoris as $item)
-              <option value="{{ $item->id }}">{{ $item->nama_kategori }}</option>
+          <select name="kategori_id" class="form-control">
+            <option value="" disabled selected>Pilih Kategori</option>
+            @foreach($kategoris as $kategori)
+              <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
             @endforeach
           </select>
         </div>
-        
       </div>
 
       <div class="row mb-4">
@@ -52,13 +51,6 @@
             <i class="bi bi-geo-alt me-1"></i> Lokasi Gudang
           </label>
           <input type="text" name="lokasi_gudang" id="lokasi_gudang" class="form-control" placeholder="Contoh: Gudang A, Rak 2">
-        </div>
-
-        <div class="col-md-6">
-          <label for="foto" class="form-label fw-semibold">
-            <i class="bi bi-image me-1"></i> Foto Barang
-          </label>
-          <input type="file" name="foto" id="foto" class="form-control" accept="image/*">
         </div>
       </div>
 

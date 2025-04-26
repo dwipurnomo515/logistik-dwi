@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
             $table->integer('stok')->default(0);
-            $table->string('kategori')->nullable();
+            $table->unsignedBigInteger('kategori_id')->nullable();
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('set null');
             $table->string('lokasi_gudang')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->string('foto');
             $table->timestamps();
         });
     }

@@ -36,27 +36,9 @@ class BarangController extends Controller
             'kategori_id' => 'nullable|string',
             'lokasi_gudang' => 'nullable|string',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $data = $request->only([
-            'kode_barang',
-            'nama_barang',
-            'stok',
-            'kategori_id',
-            'lokasi_gudang',
-            'deskripsi'
-        ]);
-        $Pathfoto = null;
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            $Pathfoto = $request->file('foto')->store('barang', 'public');
-        }
-
-
-        Barang::create([
-            ...$data,
-            'foto' => $Pathfoto,
-        ]);
+        Barang::create($request->all());
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan');
     }
@@ -80,15 +62,7 @@ class BarangController extends Controller
             'kategori' => 'nullable|string',
             'lokasi_gudang' => 'nullable|string',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('public/foto_barang', $filename);
-            $data['foto'] = $filename;
-        }
 
         $barang->update($request->all());
         return redirect()->route('barang.index')->with('success', 'Barang berhasil diperbarui');
