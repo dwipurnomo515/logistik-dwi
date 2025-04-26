@@ -10,8 +10,11 @@
 <body class="bg-light">
   <div class="container-fluid">
     <div class="row">
-      <aside class="col-md-4 col-lg-3 bg-white vh-100 p-4 border-end sticky-top">
-        <h4 class="mb-4 fw-bold text-dark">Gudang Logistik</h4>
+      <div class="col-md-4 col-lg-3 d-md-block offcanvas-md offcanvas-start bg-white vh-100 p-4 border-end" id="sidebar" tabindex="-1">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold text-dark mb-0">Gudang Logistik</h4>
+          <button type="button" class="btn-close d-md-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"></button>
+        </div>
         <ul class="nav flex-column">
           <li class="nav-item mb-2">
             <a href="{{ route('barang.index') }}" class="nav-link d-flex align-items-center gap-2 py-2 px-3 rounded text-dark fw-medium active bg-light text-primary">
@@ -29,9 +32,15 @@
             </a>
           </li>
         </ul>
-      </aside>
+      </div>
 
       <main class="col-md-8 col-lg-9 p-4">
+        <div class="d-md-none mb-4">
+          <button class="btn btn-outline-dark rounded-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+        </div>
+
         @if(session('success'))
           <div class="alert alert-success">{{ session('success') }}</div>
         @endif
